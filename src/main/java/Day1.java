@@ -4,7 +4,7 @@ void main() throws IOException, URISyntaxException {
 }
 
 private static void part1() throws URISyntaxException, IOException {
-	Stream<String> lines = Files.lines(Path.of(ClassLoader.getSystemResource("01-1.txt").toURI()));
+	Stream<String> lines = Files.lines(Path.of(ClassLoader.getSystemResource("01.input").toURI()));
 
 	AtomicInteger numberOfTimeZero = new AtomicInteger();
 	AtomicInteger dialPosition = new AtomicInteger(50);
@@ -22,11 +22,11 @@ private static void part1() throws URISyntaxException, IOException {
 		}
 		dialPosition.set(newDialPosition);
 	});
-	System.out.println("1.2: " + numberOfTimeZero.get());
+	System.out.println("1.1: " + numberOfTimeZero.get());
 }
 
 private static void part2() throws URISyntaxException, IOException {
-	Stream<String> lines = Files.lines(Path.of(ClassLoader.getSystemResource("01-1.txt").toURI()));
+	Stream<String> lines = Files.lines(Path.of(ClassLoader.getSystemResource("01.input").toURI()));
 
 	AtomicInteger numberOfTimeZero = new AtomicInteger();
 	AtomicInteger dialPosition = new AtomicInteger(50);
@@ -47,8 +47,6 @@ private static void part2() throws URISyntaxException, IOException {
 			}
 		}
 		dialPosition.set(newDialPosition);
-
-		System.out.println("\t" + s + " " + numberOfTimeZero.get() + " " + dialPosition.get());
 	});
 	System.out.println("1.2: " + numberOfTimeZero.get());
 }
