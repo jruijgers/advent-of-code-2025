@@ -1,11 +1,11 @@
 void main() throws IOException, URISyntaxException {
-	part1();
-	part2();
+	List<String> lines = Files.readAllLines(Path.of(ClassLoader.getSystemResource("01.input").toURI()));
+
+	part1(lines);
+	part2(lines);
 }
 
-private static void part1() throws URISyntaxException, IOException {
-	Stream<String> lines = Files.lines(Path.of(ClassLoader.getSystemResource("01.input").toURI()));
-
+private static void part1(List<String> lines) throws URISyntaxException, IOException {
 	AtomicInteger numberOfTimeZero = new AtomicInteger();
 	AtomicInteger dialPosition = new AtomicInteger(50);
 	lines.forEach(s -> {
@@ -25,9 +25,7 @@ private static void part1() throws URISyntaxException, IOException {
 	System.out.println("1.1: " + numberOfTimeZero.get());
 }
 
-private static void part2() throws URISyntaxException, IOException {
-	Stream<String> lines = Files.lines(Path.of(ClassLoader.getSystemResource("01.input").toURI()));
-
+private static void part2(List<String> lines) throws URISyntaxException, IOException {
 	AtomicInteger numberOfTimeZero = new AtomicInteger();
 	AtomicInteger dialPosition = new AtomicInteger(50);
 	lines.forEach(s -> {
