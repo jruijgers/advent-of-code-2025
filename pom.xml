@@ -8,6 +8,15 @@
 	<artifactId>advent-of-code-2025</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>resources</directory>
+			</resource>
+		</resources>
+	</build>
+
 	<properties>
 		<maven.compiler.source>25</maven.compiler.source>
 		<maven.compiler.target>25</maven.compiler.target>
