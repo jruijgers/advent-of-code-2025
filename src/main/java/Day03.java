@@ -15,15 +15,19 @@ private void part1(List<String> strings, int cellsToTurnOn) {
 	strings.parallelStream().map(s -> toJoltage(s, cellsToTurnOn)).reduce(Long::sum).ifPresent(System.out::println);
 }
 
-private long toJoltage(String s, int cellsToTurnOn) {
+private long toJoltage(String input, int cellsToTurnOn) {
+	var values = new long[input.length()];
 	var cells = new long[cellsToTurnOn];
+
+	for (int i = 0; i < input.length(); i++) {
+		values[i] = Long.parseLong(input.substring(i, i + 1));
+	}
 
 	int lastCellPos = -1;
 	for (int cell = 0; cell < cellsToTurnOn; cell++) {
-		for (int i = lastCellPos+1; i < s.length() - cellsToTurnOn+cell+1; i++) {
-			var value = Long.parseLong(s.substring(i, i + 1));
-			if (value > cells[cell]) {
-				cells[cell] = value;
+		for (int i = lastCellPos + 1; i < input.length() - cellsToTurnOn + cell + 1; i++) {
+			if (values[i] > cells[cell]) {
+				cells[cell] = values[i];
 				lastCellPos = i;
 			}
 		}
@@ -31,7 +35,7 @@ private long toJoltage(String s, int cellsToTurnOn) {
 
 	long sum = 0;
 	for (int i = 0; i < cells.length; i++) {
-		sum += cells[i] * Math.powExact(10L ,cellsToTurnOn-i-1);
+		sum += cells[i] * Math.powExact(10L, cellsToTurnOn - i - 1);
 	}
 	return sum;
 }
