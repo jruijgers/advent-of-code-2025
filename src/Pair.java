@@ -1,60 +1,25 @@
-/*
- *
- *  ---------------------------------------------------------------------------------------------------------
- *              Titel: Pair.java
- *             Auteur: ruijj03
- *    Creatietijdstip: 05/12/2025 14:00
- *          Copyright: (c) 2025 Belastingdienst / Centrum voor Applicatieontwikkeling en Onderhoud,
- *                     All Rights Reserved.
- *  ---------------------------------------------------------------------------------------------------------
- *                                              |   Unpublished work. This computer program includes
- *     De Belastingdienst                       |   Confidential, Properietary Information and is a
- *     Postbus 9050                             |   trade Secret of the Belastingdienst. No part of
- *     7300 GM  Apeldoorn                       |   this file may be reproduced or transmitted in any
- *     The Netherlands                          |   form or by any means, electronic or mechanical,
- *     http://belastingdienst.nl/               |   for the purpose, without the express written
- *                                              |   permission of the copyright holder.
- *  ---------------------------------------------------------------------------------------------------------
- *
- */
-
-/**
- * TODO: ruijj03: beschrijf deze klasse !
- *
- * @author ruijj03
- */
 public class Pair {
 	private long x;
 	private long y;
 
 	public Pair(long x, long y) {
-		this.x = x;
-		this.y = y;
+		this.x = Math.min(x, y);
+		this.y = Math.max(x, y);
 	}
 
-	public boolean isBetweenInclusive(long value) {
+	public boolean containsProduct(long value) {
 		return x <= value && value <= y;
 	}
 
 	public Long numberOfProducts() {
-		return y - x ;
-	}
-
-	public boolean includes(Pair p) {
-		if (p == this) { return false;}
-		System.out.println(this + " " + p + " => " + (x >= p.x && y <= p.y));
-		return x >= p.x && y <= p.y;
-	}
-
-	@Override
-	public String toString() {
-		return "[" + x + "," + y + "]";
+		return y - x + 1;
 	}
 
 	public boolean overlaps(Pair other) {
-		if (this == other) return false;
-
-		return x < other.y && y > other.x;
+		if (this == other) {
+			return false;
+		}
+		return x <= other.y && y >= other.x;
 	}
 
 	public void merge(Pair pair) {
@@ -64,5 +29,26 @@ public class Pair {
 		if (pair.y > y) {
 			y = pair.y;
 		}
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		Pair pair = (Pair) o;
+		return x == pair.x && y == pair.y;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = Long.hashCode(x);
+		result = 31 * result + Long.hashCode(y);
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "[" + x + "," + y + "]";
 	}
 }
