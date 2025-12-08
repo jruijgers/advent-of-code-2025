@@ -5,38 +5,32 @@ import java.nio.file.Path;
 import java.util.List;
 
 void main() throws URISyntaxException, IOException {
-    List<String> input = Files.readAllLines(Path.of(ClassLoader.getSystemResource("07.example").toURI()));
+    List<String> input = Files.readAllLines(Path.of(ClassLoader.getSystemResource("07.input").toURI()));
 
-    part1(input);
-}
+    var part1result = new AtomicLong();
 
-private void part1(List<String> input) {
-    var result = new AtomicInteger();
+    Map<Integer, Long> beamLocations = new HashMap<>(input.getFirst().length());
+    Map<Integer, Long> newLocations = new ConcurrentHashMap<>(input.getFirst().length());
 
-    Set<Integer> beamLocations = new HashSet<>(input.getFirst().length());
-    Set<Integer> newLocations = new HashSet<>(input.getFirst().length());
+    beamLocations.put(input.getFirst().indexOf('S'), 1L);
 
-    beamLocations.add(input.getFirst().indexOf('S'));
-
-    for(String line : input) {
-        beamLocations.parallelStream().forEach(beamLocation -> {
-            if (line.charAt(beamLocation) == '^') {
-                if (beamLocation -1 >= 0) {
-                    newLocations.add(beamLocation - 1);
+    for (String line : input) {
+        if (line.indexOf('^') > -1) {
+            beamLocations.entrySet().parallelStream().forEach((entry) -> {
+                if (line.charAt(entry.getKey()) == '^') {
+                    newLocations.merge(entry.getKey() - 1, entry.getValue(), Long::sum);
+                    newLocations.merge(entry.getKey() + 1, entry.getValue(), Long::sum);
+                    part1result.incrementAndGet();
+                } else {
+                    newLocations.merge(entry.getKey(), entry.getValue(), Long::sum);
                 }
-                if (beamLocation +1 < input.size()) {
-                    newLocations.add(beamLocation + 1);
-                }
-                result.incrementAndGet();
-            } else {
-                newLocations.add(beamLocation);
-            }
-        });
-        beamLocations.clear();
-        beamLocations.addAll(newLocations);
-        System.out.println(beamLocations);
-        newLocations.clear();
+            });
+            beamLocations.clear();
+            beamLocations.putAll(newLocations);
+            newLocations.clear();
+        }
     }
 
-    System.out.println("7.1: "+result);
+    System.out.println("7.1: " + part1result);
+    beamLocations.values().parallelStream().reduce(Long::sum).ifPresent(result -> System.out.println("7.2: " + result));
 }
