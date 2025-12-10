@@ -1,3 +1,5 @@
+package aoc;
+
 public class Pair {
 	private long x;
 	private long y;
