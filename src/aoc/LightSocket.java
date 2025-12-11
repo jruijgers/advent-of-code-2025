@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class LightSocket {
+public class LightSocket implements Comparable<LightSocket> {
 	final int x;
 	final int y;
 	final int z;
@@ -53,7 +53,31 @@ public class LightSocket {
 		return "[%3d,%3d,%3d]".formatted(x, y, z);
 	}
 
-	record Distance(LightSocket left, LightSocket right, double distance) implements Comparable<LightSocket.Distance> {
+	@Override
+	public int compareTo(LightSocket o) {
+		int result = Integer.compare(x, o.x);
+		if (result == 0)
+			result = Integer.compare(y, o.y);
+		if (result == 0)
+			result = Integer.compare(z, o.z);
+		return result;
+	}
+
+	class Distance implements Comparable<LightSocket.Distance> {
+		LightSocket left, right;
+		double distance;
+
+		Distance(LightSocket left, LightSocket right, double distance) {
+			if (left.compareTo(right) < 0) {
+				this.left = left;
+				this.right = right;
+			} else {
+				this.left = right;
+				this.right = left;
+			}
+			this.distance = distance;
+		}
+
 		@Override
 		public int compareTo(Distance other) {
 			return Double.compare(distance, other.distance);
