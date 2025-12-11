@@ -56,11 +56,9 @@ public class Point implements Comparable<Point> {
 
 	@Override
 	public int compareTo(Point o) {
-		int result = 0;
-		result = Long.compare(x, o.x);
-		if (result == 0) {
+		int result = Long.compare(x, o.x);
+		if (result == 0)
 			result = Long.compare(y, o.y);
-		}
 		return result;
 	}
 }
