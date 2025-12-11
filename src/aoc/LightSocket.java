@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.Objects;
 
 public class LightSocket implements Comparable<LightSocket> {
-	final int x;
-	final int y;
-	final int z;
+	final long x;
+	final long y;
+	final long z;
 
 	final Map<LightSocket, Double> distances = new HashMap<>();
 
@@ -42,9 +42,9 @@ public class LightSocket implements Comparable<LightSocket> {
 
 	@Override
 	public int hashCode() {
-		int result = x;
-		result = 31 * result + y;
-		result = 31 * result + z;
+		int result = Long.hashCode(x);
+		result = 31 * result + Long.hashCode(y);
+		result = 31 * result + Long.hashCode(z);
 		return result;
 	}
 
@@ -55,11 +55,11 @@ public class LightSocket implements Comparable<LightSocket> {
 
 	@Override
 	public int compareTo(LightSocket o) {
-		int result = Integer.compare(x, o.x);
+		int result = Long.compare(x, o.x);
 		if (result == 0)
-			result = Integer.compare(y, o.y);
+			result = Long.compare(y, o.y);
 		if (result == 0)
-			result = Integer.compare(z, o.z);
+			result = Long.compare(z, o.z);
 		return result;
 	}
 
