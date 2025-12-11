@@ -9,12 +9,6 @@ public class Pair {
 		this.y = Math.max(x, y);
 	}
 
-	public Pair(String data) {
-		String[] split = data.split(",");
-		x = Integer.parseInt(split[0]);
-		y = Integer.parseInt(split[1]);
-	}
-
 	public boolean containsProduct(long value) {
 		return x <= value && value <= y;
 	}
@@ -37,10 +31,6 @@ public class Pair {
 		if (pair.y > y) {
 			y = pair.y;
 		}
-	}
-
-	public Long area(Pair other) {
-		return (Math.abs(x - other.x) + 1) * (Math.abs(y-other.y)+1);
 	}
 
 	@Override
