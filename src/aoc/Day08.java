@@ -17,26 +17,22 @@ public class Day08 {
 	public void main() throws URISyntaxException, IOException {
 		List<String> input = Files.readAllLines(Path.of(ClassLoader.getSystemResource("08.input").toURI()));
 
-		part1(input);
+		part1(input, 1000);
 	}
 
-	private void part1(List<String> input) {
+	private void part1(List<String> input, int limit) {
 		List<LightSocket> lightSockets = input.stream().map(LightSocket::new).toList();
 
 		List<LightSocket.Distance> distances = lightSockets.stream()
 				.flatMap(a -> lightSockets.stream().filter(b -> a != b).map(b -> a.distance(b)).distinct()).distinct().sorted()
-				.toList();
+				.toList().subList(0, limit);
 
 		Map<LightSocket, Set<LightSocket>> chains = lightSockets.stream()
 				.collect(Collectors.toMap(ls -> ls, ls -> new HashSet<>(singletonList(ls))));
 
-		System.out.println(distances.size());
-		int i = 0;
 		for (LightSocket.Distance distance : distances) {
 			Set<LightSocket> chainLeft = chains.get(distance.left);
 			Set<LightSocket> chainRight = chains.get(distance.right);
-
-			//			System.out.println(++i + " => "+ distance);
 
 			if (chainLeft != chainRight) {
 				chainLeft.addAll(chainRight);
@@ -46,11 +42,7 @@ public class Day08 {
 			}
 		}
 
-		List<Integer> list = chains.values().stream().distinct().map(Set::size).sorted(Collections.reverseOrder()).toList();
-		System.out.println(list);
-		if (list.size() >= 3) {
-			list.subList(0, 3).stream().reduce(Math::multiplyExact)
-					.ifPresent(s -> System.out.println("\u001B[31m8.1: " + s + "\u001B[0m"));
-		}
+		chains.values().stream().distinct().map(Set::size).sorted(Collections.reverseOrder()).limit(3).reduce(Math::multiplyExact)
+				.ifPresent(s -> System.out.println("8.1: " + s));
 	}
 }
